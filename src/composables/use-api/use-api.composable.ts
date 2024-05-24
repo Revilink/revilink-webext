@@ -12,7 +12,7 @@ export default (): UseApiTypes => {
     try {
       const encodedUrl = encodeBase64(convertToRevilinkFormat({ url }))
       const response = await fetch(`
-        ${API_URL}/comments?populate=url,user,user.avatar,images&filters[url][url][$eq]=${encodedUrl}&filters[parent][id][$notNull]=false&sort=id:desc&pagination[page]=1&pagination[pageSize]=${limit}
+        ${API_URL}/comments?populate=url,user,user.avatar,images&filters[url][url][$eq]=${encodedUrl}&filters[parent][id][$notNull]=false&sort=likeCount:desc&pagination[page]=1&pagination[pageSize]=${limit}
       `)
 
       if (!response.ok)
