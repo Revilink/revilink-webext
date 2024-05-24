@@ -1,3 +1,5 @@
-import { useWebExtensionStorage } from '~/composables/useWebExtensionStorage'
+import { useWebExtensionStorage } from '~/composables'
 
-export const storageDemo = useWebExtensionStorage('webext-demo', 'Storage Demo')
+export const appStorage = useWebExtensionStorage('app-storage', {
+  activeTab: {},
+})

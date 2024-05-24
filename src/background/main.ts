@@ -1,5 +1,6 @@
-import { onMessage, sendMessage } from 'webext-bridge/background'
 import type { Tabs } from 'webextension-polyfill'
+import { useApi, useBadge } from '~/composables'
+import { appStorage } from '~/logic/storage'
 
 // only on dev mode
 if (import.meta.hot) {
@@ -14,41 +15,87 @@ browser.runtime.onInstalled.addListener((): void => {
   console.log('Extension installed')
 })
 
-let previousTabId = 0
+const reviews = reactive({
+  total: 0,
+})
+
+const badge = reactive({
+  isBusy: false,
+})
+
+async function fetchReviews({ tabId }: { tabId: number }) {
+  badge.isBusy = true
+
+  const activeTab: Tabs.Tab = await browser.tabs.get(tabId)
+
+  const { fetchReviews: _fetchReviews } = useApi()
+  const { data, meta } = await _fetchReviews({ url: activeTab.url as string })
+
+  reviews.total = meta.pagination.total
+
+  badge.isBusy = false
+
+  return {
+    data,
+    meta,
+  }
+}
+
+watch(
+  () => badge.isBusy,
+  async (value) => {
+    const { setBadge } = useBadge()
+
+    if (value) {
+      await setBadge({
+        backgroundColor: '#666',
+        text: '...',
+      })
+    }
+    else {
+      await setBadge({
+        text: reviews.total > 0 ? String(reviews.total) : null,
+      })
+    }
+  },
+)
+
+async function setReviewTotalBadge(total: number) {
+  const { setBadge } = useBadge()
+
+  if (total > 0) {
+    await setBadge({
+      text: String(total),
+    })
+  }
+  else {
+    await setBadge({
+      text: null,
+    })
+  }
+}
 
 // communication example: send previous tab title from background page
 // see shim.d.ts for type declaration
 browser.tabs.onActivated.addListener(async ({ tabId }) => {
-  if (!previousTabId) {
-    previousTabId = tabId
-    return
-  }
+  const { meta } = await fetchReviews({ tabId })
+  await setReviewTotalBadge(meta.pagination.total)
 
-  let tab: Tabs.Tab
-
-  try {
-    tab = await browser.tabs.get(previousTabId)
-    previousTabId = tabId
-  }
-  catch {
-    return
-  }
-
-  // eslint-disable-next-line no-console
-  console.log('previous tab', tab)
-  sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
+  appStorage.value.activeTab = await browser.tabs.get(tabId)
 })
 
-onMessage('get-current-tab', async () => {
-  try {
-    const tab = await browser.tabs.get(previousTabId)
-    return {
-      title: tab?.title,
-    }
-  }
-  catch {
-    return {
-      title: undefined,
-    }
+browser.tabs.onActivated.addListener(async ({ tabId }) => {
+  const { meta } = await fetchReviews({ tabId })
+  await setReviewTotalBadge(meta.pagination.total)
+
+  appStorage.value.activeTab = await browser.tabs.get(tabId)
+})
+
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
+  if (changeInfo.url) {
+    const { meta } = await fetchReviews({ tabId })
+    await setReviewTotalBadge(meta.pagination.total)
+
+    appStorage.value.activeTab = await browser.tabs.get(tabId)
   }
 })
