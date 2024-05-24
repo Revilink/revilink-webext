@@ -3,7 +3,24 @@
   "displayName": "Revilink Webext",
   "version": "0.0.1",
   "private": true,
-  "description": "[description]",
+  "description": "Comment on any link on the internet",
+  "author": "selimdoyranli",
+  "homepage": "https://revilink.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/revilink/revilink-webext"
+  },
+  "bugs": "selimdoyranli@gmail.com",
+  "keywords": [
+    "revilink",
+    "comment link",
+    "review link",
+    "link comment",
+    "link review"
+  ],
+  "contributors": [
+    "Selim Doyranlı <selimdoyranli@gmail.com> (https://selimdoyranli.com)"
+  ],
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",

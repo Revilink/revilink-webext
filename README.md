@@ -1,97 +1,61 @@
-# WebExtension Vite Starter
+# Revilink Webext
 
-A [Vite](https://vitejs.dev/) powered WebExtension ([Chrome](https://developer.chrome.com/docs/extensions/reference/), [FireFox](https://addons.mozilla.org/en-US/developers/), etc.) starter template.
+<br>
 
+<br>
 <p align="center">
-<sub>Popup</sub><br/>
-<img width="655" src="https://user-images.githubusercontent.com/11247099/126741643-813b3773-17ff-4281-9737-f319e00feddc.png"><br/>
-<sub>Options Page</sub><br/>
-<img width="655" src="https://user-images.githubusercontent.com/11247099/126741653-43125b62-6578-4452-83a7-bee19be2eaa2.png"><br/>
-<sub>Inject Vue App into the Content Script</sub><br/>
-<img src="https://user-images.githubusercontent.com/11247099/130695439-52418cf0-e186-4085-8e19-23fe808a274e.png">
+<a href="https://revilink.io" target="_blank">
+<img src="./src/assets/icon/favicon-32x32.png" alt="Revilink Webext" />
+</a>
 </p>
 
-## Features
+<p align="center">
+<b>Revilink Webext</b>
+</p>
 
-- ⚡️ **Instant HMR** - use **Vite** on dev (no more refresh!)
-- 🥝 Vue 3 - Composition API, [`<script setup>` syntax](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md) and more!
-- 💬 Effortless communications - powered by [`webext-bridge`](https://github.com/antfu/webext-bridge) and [VueUse](https://github.com/antfu/vueuse) storage
-- 🌈 [UnoCSS](https://github.com/unocss/unocss) - The instant on-demand Atomic CSS engine.
-- 🦾 [TypeScript](https://www.typescriptlang.org/) - type safe
-- 📦 [Components auto importing](./src/components)
-- 🌟 [Icons](./src/components) - Access to icons from any iconset directly
-- 🖥 Content Script - Use Vue even in content script
-- 🌍 WebExtension - isomorphic extension for Chrome, Firefox, and others
-- 📃 Dynamic `manifest.json` with full type support
+<p align="center">
+Comment on any link on the internet
+</p>
 
-## Pre-packed
+<br>
 
-### WebExtension Libraries
+<br>
+<p align="center">
+<img src="./src/assets/revilink-webext-ss.jpg" width="576" height="auto" alt="Revilink Webext" />
+</p>
 
-- [`webextension-polyfill`](https://github.com/mozilla/webextension-polyfill) - WebExtension browser API Polyfill with types
-- [`webext-bridge`](https://github.com/antfu/webext-bridge) - effortlessly communication between contexts
+<p align="center">
+<a href="https://github.com/revilink/revilink-webext" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/revilink/revilink-webext?style=social"></a>
+</p>
 
-### Vite Plugins
+<p align="center">
+  <a href="https://revilink.io" target="_blank">Website</a>
+</p>
 
-- [`unplugin-auto-import`](https://github.com/antfu/unplugin-auto-import) - Directly use `browser` and Vue Composition API without importing
-- [`unplugin-vue-components`](https://github.com/antfu/vite-plugin-components) - components auto import
-- [`unplugin-icons`](https://github.com/antfu/unplugin-icons) - icons as components
-  - [Iconify](https://iconify.design) - use icons from any icon sets [🔍Icônes](https://icones.netlify.app/)
+<div align="center">
+<sub>Buy me a coffee - <a href="https://www.buymeacoffee.com/selimdoyranli">Sponsorship 💖</a></sub><br>
+<sub>Github Sponsors - <a href="https://github.com/sponsors/selimdoyranli">Sponsorship 💖</a></sub><br>
+</div>
 
-### Vue Plugins
+## Getting Started
 
-- [VueUse](https://github.com/antfu/vueuse) - collection of useful composition APIs
+### Init Project Locally
 
-### UI Frameworks
+Install [Node.js >=18.18.0](https://nodejs.org/) and run the following command:
 
-- [UnoCSS](https://github.com/unocss/unocss) - the instant on-demand Atomic CSS engine
+&nbsp;
 
-### Coding Style
+#### Installation
 
-- Use Composition API with [`<script setup>` SFC syntax](https://github.com/vuejs/rfcs/pull/227)
-- [ESLint](https://eslint.org/) with [@antfu/eslint-config](https://github.com/antfu/eslint-config), single quotes, no semi
-
-### Dev tools
-
-- [TypeScript](https://www.typescriptlang.org/)
-- [pnpm](https://pnpm.js.org/) - fast, disk space efficient package manager
-- [esno](https://github.com/antfu/esno) - TypeScript / ESNext node runtime powered by esbuild
-- [npm-run-all](https://github.com/mysticatea/npm-run-all) - Run multiple npm-scripts in parallel or sequential
-- [web-ext](https://github.com/mozilla/web-ext) - Streamlined experience for developing web extensions
-
-## Use the Template
-
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/antfu/vitesse-webext/generate).
-
-### Clone to local
-
-If you prefer to do it manually with the cleaner git history
-
-> If you don't have pnpm installed, run: npm install -g pnpm
+Git clone.
 
 ```bash
-npx degit antfu/vitesse-webext my-webext
-cd my-webext
-pnpm i
+$ git clone https://github.com/revilink/revilink-webext.git
 ```
 
-## Usage
+&nbsp;
 
-### Folders
-
-- `src` - main source.
-  - `contentScript` - scripts and components to be injected as `content_script`
-  - `background` - scripts for background.
-  - `components` - auto-imported Vue components that are shared in popup and options page.
-  - `styles` - styles shared in popup and options page
-  - `assets` - assets used in Vue components
-  - `manifest.ts` - manifest for the extension.
-- `extension` - extension package root.
-  - `assets` - static assets (mainly for `manifest.json`).
-  - `dist` - built files, also serve stub entry for Vite on development.
-- `scripts` - development and bundling helper scripts.
+#### Build Setup
 
 ### Development
 
@@ -115,7 +79,7 @@ pnpm start:firefox
 
 If you have a web browser, you can get a fully pre-configured development environment with one click:
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/antfu/vitesse-webext)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/revilink/revilink-webext)
 
 ### Build
 
@@ -127,12 +91,20 @@ pnpm build
 
 And then pack files under `extension`, you can upload `extension.crx` or `extension.xpi` to appropriate extension store.
 
-## Credits
+---
 
-[![Volta](https://user-images.githubusercontent.com/904724/195351818-9e826ea9-12a0-4b06-8274-352743cd2047.png)](https://volta.net)
+Based on <a href="https://github.com/antfu-collective/vitesse-webext">vitesse-webext</a>
 
-This template is originally made for the [volta.net](https://volta.net) browser extension.
+## Sponsorship
 
-## Variations
+You can sponsor me for the continuity of my projects:
 
-This is a variant of [Vitesse](https://github.com/antfu/vitesse), check out the [full variations list](https://github.com/antfu/vitesse#variations).
+<p align="left">
+  <a href="https://buymeacoffee.com/selimdoyranli">
+    <img src='https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png'/>
+  </a>
+</p>
+
+## License
+
+MIT License © 2024 [Revilink](https://github.com/revilink/revilink-webext)
