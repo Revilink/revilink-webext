@@ -141,7 +141,7 @@ onMounted(async () => {
       </template>
       <template v-else-if="review.hasError">
         <p class="block my-6 text-center text-red">
-          Fetching error on url reactions
+          Fetching error on reviews
         </p>
       </template>
       <template v-else>
