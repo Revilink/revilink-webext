@@ -87,7 +87,7 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
 })
 
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-  if (changeInfo.url) {
+  if (changeInfo.url || changeInfo.status === 'complete') {
     delete tabCache[tabId]
 
     const { meta } = await fetchReviews({ tabId })
