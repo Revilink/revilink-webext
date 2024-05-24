@@ -23,7 +23,12 @@ const badge = reactive({
   isBusy: false,
 })
 
+const tabCache: Record<number, { data: any, meta: any }> = {}
+
 async function fetchReviews({ tabId }: { tabId: number }) {
+  if (tabCache[tabId])
+    return tabCache[tabId]
+
   badge.isBusy = true
 
   const activeTab: Tabs.Tab = await browser.tabs.get(tabId)
@@ -35,10 +40,9 @@ async function fetchReviews({ tabId }: { tabId: number }) {
 
   badge.isBusy = false
 
-  return {
-    data,
-    meta,
-  }
+  tabCache[tabId] = { data, meta }
+
+  return { data, meta }
 }
 
 watch(
@@ -75,15 +79,6 @@ async function setReviewTotalBadge(total: number) {
   }
 }
 
-// communication example: send previous tab title from background page
-// see shim.d.ts for type declaration
-browser.tabs.onActivated.addListener(async ({ tabId }) => {
-  const { meta } = await fetchReviews({ tabId })
-  await setReviewTotalBadge(meta.pagination.total)
-
-  appStorage.value.activeTab = await browser.tabs.get(tabId)
-})
-
 browser.tabs.onActivated.addListener(async ({ tabId }) => {
   const { meta } = await fetchReviews({ tabId })
   await setReviewTotalBadge(meta.pagination.total)
@@ -93,9 +88,22 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
 
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
   if (changeInfo.url) {
+    delete tabCache[tabId]
+
     const { meta } = await fetchReviews({ tabId })
     await setReviewTotalBadge(meta.pagination.total)
 
     appStorage.value.activeTab = await browser.tabs.get(tabId)
+  }
+})
+
+browser.windows.onFocusChanged.addListener(async (windowId) => {
+  const [tab] = await browser.tabs.query({ active: true, windowId })
+
+  if (tab) {
+    const { meta } = await fetchReviews({ tabId: tab.id as number })
+    await setReviewTotalBadge(meta.pagination.total)
+
+    appStorage.value.activeTab = await browser.tabs.get(tab.id as number)
   }
 })
