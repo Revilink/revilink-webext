@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import type { Tabs } from 'webextension-polyfill'
 import { BACKEND_URL, URL } from '~/system/constants'
 import { useApi } from '~/composables'
@@ -69,10 +68,15 @@ async function fetchUrlReactions() {
   urlReaction.isBusy = false
 }
 
-onMounted(async () => {
-  await fetchReviews()
-  await fetchUrlReactions()
-})
+watch(
+  () => (appStorage.value.activeTab as Tabs.Tab).url,
+  async (value) => {
+    if (value) {
+      await fetchReviews()
+      await fetchUrlReactions()
+    }
+  },
+)
 </script>
 
 <template>
