@@ -39,11 +39,13 @@ export async function getManifest() {
       'storage',
       'activeTab',
     ],
-    host_permissions: ['*://*/*'],
+    host_permissions: [
+      'https://*.revilink.io/*',
+    ],
     content_scripts: [
       {
         matches: [
-          '<all_urls>',
+          'https://*.revilink.io/*',
         ],
         js: [
           'dist/contentScripts/index.global.js',
@@ -53,7 +55,9 @@ export async function getManifest() {
     web_accessible_resources: [
       {
         resources: ['dist/contentScripts/style.css'],
-        matches: ['<all_urls>'],
+        matches: [
+          'https://*.revilink.io/*',
+        ],
       },
     ],
     content_security_policy: {
