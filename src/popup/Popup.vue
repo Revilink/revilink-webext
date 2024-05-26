@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Tabs } from 'webextension-polyfill'
-import { BACKEND_URL, URL } from '~/system/constants'
+import { URL } from '~/system/constants'
 import { useApi } from '~/composables'
 import { appStorage } from '~/logic/storage'
 import noCommentIcon from '~/assets/elements/state/no_chat.svg'
@@ -158,7 +158,7 @@ watch(
               <!-- Comment Card -->
               <div class="relative bg-white border-1 border-b-bluegray rounded-lg p-4">
                 <div class="flex">
-                  <img v-if="item.user.avatar?.formats?.thumbnail?.url" :src="`${BACKEND_URL}${item.user.avatar.formats.thumbnail.url}`" :alt="item.user.username" class="rounded-full object-cover w-[32px] h-[32px] border-1 border-gray-200">
+                  <img v-if="item.user.avatar?.formats?.thumbnail?.url" :src="`${item.user.avatar.formats.thumbnail.url}`" :alt="item.user.username" class="rounded-full object-cover w-[32px] h-[32px] border-1 border-gray-200">
                   <img v-else :src="`${URL}/media/core/user.png`" :alt="item.user.username" class="rounded-full object-cover w-[32px] h-[32px] border-1 border-gray-200">
                   <div class="ps-2 pt-0">
                     <strong class="block line-clamp-1">{{ item.user.username }}</strong>

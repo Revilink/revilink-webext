@@ -21,6 +21,9 @@
   "contributors": [
     "Selim Doyranlı <selimdoyranli@gmail.com> (https://selimdoyranli.com)"
   ],
+  "engines": {
+    "node": "18.18.0"
+  },
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
