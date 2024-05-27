@@ -17,18 +17,29 @@ browser.runtime.onInstalled.addListener((): void => {
   })
 })
 
+let updateTimeout: NodeJS.Timeout
+
 browser.tabs.onActivated.addListener(async ({ tabId }) => {
-  appStorage.value.activeTab = await browser.tabs.get(tabId)
+  clearTimeout(updateTimeout)
+  updateTimeout = setTimeout(async () => {
+    appStorage.value.activeTab = await browser.tabs.get(tabId)
+  }, 100)
 })
 
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-  if (changeInfo.url || changeInfo.status === 'complete')
-    appStorage.value.activeTab = await browser.tabs.get(tabId)
+  if (changeInfo.url || changeInfo.status === 'complete') {
+    clearTimeout(updateTimeout)
+    updateTimeout = setTimeout(async () => {
+      appStorage.value.activeTab = await browser.tabs.get(tabId)
+    }, 100)
+  }
 })
 
 browser.windows.onFocusChanged.addListener(async (windowId) => {
-  const [tab] = await browser.tabs.query({ active: true, windowId })
-
-  if (tab)
-    appStorage.value.activeTab = await browser.tabs.get(tab.id as number)
+  clearTimeout(updateTimeout)
+  updateTimeout = setTimeout(async () => {
+    const [tab] = await browser.tabs.query({ active: true, windowId })
+    if (tab)
+      appStorage.value.activeTab = await browser.tabs.get(tab.id as number)
+  }, 100)
 })

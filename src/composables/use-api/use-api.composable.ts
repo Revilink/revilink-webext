@@ -15,19 +15,21 @@ export default (): UseApiTypes => {
         ${API_URL}/comments?populate=url,user,user.avatar,images&filters[url][url][$eq]=${encodedUrl}&filters[parent][id][$notNull]=false&sort=likeCount:desc&pagination[page]=1&pagination[pageSize]=${limit}
       `)
 
-      if (!response.ok)
-        throw new Error('Network response was not ok')
-
       const { data, meta }: any = await response.json()
 
       return <any>{
-        data: data.map((item: ReviewApiModelTypes) => reviewTransformer(item)),
+        data: data?.length > 0 ? data.map((item: ReviewApiModelTypes) => reviewTransformer(item)) : null,
         meta,
       }
     }
     catch (error) {
       console.error('Failed to fetch data from API', error)
-      return undefined
+
+      return {
+        data: null,
+        meta: null,
+        error,
+      }
     }
   }
 
@@ -40,19 +42,21 @@ export default (): UseApiTypes => {
         ${API_URL}/url-reactions?populate=&filters[url][url][$eq]=${encodedUrl}
       `)
 
-      if (!response.ok)
-        throw new Error('Network response was not ok')
-
       const { data, meta }: any = await response.json()
 
       return <any>{
-        data: data.map((item: UrlReactionApiModelTypes) => urlReactionTransformer(item)),
+        data: data?.length > 0 ? data.map((item: UrlReactionApiModelTypes) => urlReactionTransformer(item)) : null,
         meta,
       }
     }
     catch (error) {
       console.error('Failed to fetch data from API', error)
-      return undefined
+
+      return {
+        data: null,
+        meta: null,
+        error,
+      }
     }
   }
 

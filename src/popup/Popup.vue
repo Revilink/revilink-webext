@@ -15,7 +15,6 @@ const review = reactive({
 const urlReaction = reactive({
   isBusy: false,
   hasError: false,
-  items: [],
   meta: {},
 }) as any
 
@@ -47,17 +46,18 @@ async function fetchReviews() {
 
   review.isBusy = true
 
-  try {
-    const { data, meta } = await _fetchReviews({ url: (appStorage.value.activeTab as Tabs.Tab).url as string })
+  const url = (appStorage.value.activeTab as Tabs.Tab).url as string
 
-    review.items = data
-    review.meta = meta
-  }
-  catch (error) {
-    review.hasError = true
-  }
+  if (url) {
+    const { data, meta } = await _fetchReviews({ url })
 
-  review.isBusy = false
+    if (data && meta) {
+      review.items = data
+      review.meta = meta
+    }
+
+    review.isBusy = false
+  }
 }
 
 async function fetchUrlReactions() {
@@ -65,17 +65,16 @@ async function fetchUrlReactions() {
 
   urlReaction.isBusy = true
 
-  try {
-    const { data, meta } = await _fetchUrlReactions({ url: (appStorage.value.activeTab as Tabs.Tab).url as string })
+  const url = (appStorage.value.activeTab as Tabs.Tab).url as string
 
-    urlReaction.items = data
-    urlReaction.meta = meta
-  }
-  catch (error) {
-    urlReaction.hasError = true
-  }
+  if (url) {
+    const { meta } = await _fetchUrlReactions({ url })
 
-  urlReaction.isBusy = false
+    if (meta)
+      urlReaction.meta = meta
+
+    urlReaction.isBusy = false
+  }
 }
 
 watch(
@@ -159,7 +158,7 @@ onMounted(async () => {
       <!-- Reviews -->
       <template v-if="review.isBusy">
         <p class="block my-6 text-center text-gray-500">
-          Loading url reactions...
+          Loading reviews...
         </p>
       </template>
       <template v-else-if="review.hasError">
