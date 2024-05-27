@@ -23,13 +23,23 @@ function formatUrl(url: string): string {
   return encodeURIComponent(url)
 }
 
-function goExternalLink() {
+function getReviewsLink() {
   const url = (appStorage.value.activeTab as Tabs.Tab).url as string
 
   if (url) {
     const formattedLink = formatUrl(url)
-    window.open(`https://revilink.io/reviews?link=${formattedLink}`, '_blank')
+
+    return `https://revilink.io/reviews?link=${formattedLink}`
   }
+  else {
+    return 'https://revilink.io'
+  }
+}
+
+async function openReviewsLink() {
+  const link = getReviewsLink()
+
+  window.open(link || 'https://revilink.io', '_blank')
 }
 
 async function fetchReviews() {
@@ -77,6 +87,15 @@ watch(
     }
   },
 )
+
+onMounted(async () => {
+  await nextTick()
+
+  if (appStorage.value.activeTab) {
+    await fetchReviews()
+    await fetchUrlReactions()
+  }
+})
 </script>
 
 <template>
@@ -105,7 +124,7 @@ watch(
         </p>
       </template>
       <template v-else>
-        <section v-if="Object.keys(urlReaction).length > 0 && Object.keys(urlReaction.meta).length > 0" class="flex gap-5 mb-5" @click="goExternalLink">
+        <section v-if="Object.keys(urlReaction).length > 0 && Object.keys(urlReaction.meta).length > 0" class="flex gap-5 mb-5" @click="openReviewsLink">
           <button class="flex flex-col items-center">
             <fluent-emoji-red-heart size="22px" />
             <span class="mt-1 text-gray-500">{{ urlReaction.meta.reactionCount.heart }}</span>
@@ -169,7 +188,7 @@ watch(
                   <p class="mt-1 mb-2 break-words line-clamp-2 text-md">
                     {{ item.content }}
                   </p>
-                  <div class="flex gap-4 mt-3" @click="goExternalLink">
+                  <div class="flex gap-4 mt-3" @click="openReviewsLink">
                     <button class="flex flex-row items-center">
                       <ri-heart-3-line size="14px" />
                       <span class="ms-1 text-[12px] text-gray-500">{{ item.likeCount }}</span>
@@ -183,9 +202,11 @@ watch(
               </div>
             </div>
 
-            <button class="flex py-1 px-6 bg-transparent hover:bg-gray-200 text-gray-900 mt-4 mx-auto rounded" @click="goExternalLink">
-              🔗 See more comments
-            </button>
+            <div class="flex justify-center">
+              <a :href="getReviewsLink()" target="_blank" class="inline-flex py-1 px-6 bg-transparent hover:bg-gray-200 text-gray-900 mt-4 mx-auto rounded">
+                🔗 See more comments
+              </a>
+            </div>
           </template>
         </template>
         <template v-else>
@@ -195,9 +216,9 @@ watch(
               No comments
             </h4>
             <p>No comments have been made about the thing in the link yet</p>
-            <button class="flex btn bg-black mt-6" @click="goExternalLink">
+            <a :href="getReviewsLink()" target="_blank" class="flex btn bg-black mt-6">
               See on Revilink
-            </button>
+            </a>
           </div>
         </template>
       </template>
