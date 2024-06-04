@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <base target="_blank">
-  <title>Popup</title>
-</head>
-<body style="min-width: 100px">
-  <div id="app"></div>
-  <script type="module" src="./main.ts"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <base target="_blank" />
+    <title>Popup</title>
+    <style>
+      .revilink-reviews-embed {
+        background-color: transparent !important;
+      }
+
+      .revilink-reviews-embed .reviews-embed-page-reactions {
+        margin-top: 32px !important;
+        margin-bottom: 32px !important;
+      }
+
+      .revilink-reviews-embed .reaction-button-group {
+        justify-content: flex-start !important;
+      }
+
+      .revilink-reviews-embed .review-card .review-card__body {
+        background-color: #fff !important;
+      }
+
+      .revilink-reviews-embed .reply-card .reply-card__body {
+        background-color: #fff !important;
+      }
+
+      .revilink-reviews-embed .comment-form-card .comment-form-card__body {
+        background-color: #fff !important;
+      }
+    </style>
+  </head>
+  <body style="min-width: 100px">
+    <div id="app"></div>
+    <script type="module" src="./main.ts"></script>
+  </body>
 </html>

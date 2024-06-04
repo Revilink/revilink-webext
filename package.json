@@ -1,7 +1,7 @@
 {
   "name": "revilink-webext",
   "displayName": "Revilink Webext",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "Comment on any link on the internet",
   "author": "selimdoyranli",

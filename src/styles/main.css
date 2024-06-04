@@ -24,3 +24,7 @@ body {
 .logo img {
   @apply w-[auto] h-[32px];
 }
+
+iframe {
+  @apply w-full;
+}
