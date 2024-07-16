@@ -32,6 +32,12 @@ Comment on any link on the internet
   <a href="https://revilink.io" target="_blank">Website</a>
 </p>
 
+<p align="center">
+  <a href="https://chrome.google.com/webstore/detail/nliahkpjhgbbfgdlhanfcemeckbpbffd" target="_blank">
+    <img src="./src/assets/chrome-store-badge.png" width="128" height="auto" alt="Revilink Webext Chrome Web Store" />
+  </a>
+</p>
+
 <div align="center">
 <sub>Buy me a coffee - <a href="https://www.buymeacoffee.com/selimdoyranli">Sponsorship 💖</a></sub><br>
 <sub>Github Sponsors - <a href="https://github.com/sponsors/selimdoyranli">Sponsorship 💖</a></sub><br>
